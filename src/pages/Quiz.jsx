@@ -7,7 +7,7 @@ const Quiz = () => {
           
           <div className="flex gap-6">
             {/* Red Team */}
-            <div className="w-1/4 bg-red-900/50 border border-red-800 rounded-lg p-4 ml-0 h-[700px] ">     
+            <div className="w-1/4 bg-red-900/50 border border-red-800 rounded-lg p-4 ml-0 h-[400px] ">     
                 <h2 className="text-xl text-red-400 mb-4">Red Team</h2>
               <div className="space-y-4">
                 <div>
@@ -40,7 +40,7 @@ const Quiz = () => {
             </div>
   
             {/* Blue Team */}
-            <div className="w-1/4 bg-blue-900/50 border border-blue-800 rounded-lg p-4 h-[700px]">
+            <div className="w-1/4 bg-blue-900/50 border border-blue-800 rounded-lg p-4 h-[400px]">
               <div className="mb-4">
                 <h2 className="text-xl text-blue-400">Blue Team</h2>
               </div>
