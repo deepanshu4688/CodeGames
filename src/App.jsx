@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Quiz from './pages/Quiz';
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      Not-NTA
-    </>
+    <Router>
+      <Routes>
+        <Route path='/quiz' element={<Quiz/>}/>
+      </Routes>
+    </Router>
   )
 }
 
