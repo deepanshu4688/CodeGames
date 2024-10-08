@@ -1,14 +1,19 @@
 
 import React, { useEffect, useState } from 'react'
 import io from "socket.io-client"
-import Profilebox from '../components/Profilebox'
 import Playerlist from '../components/Playerlist'
+import roomCodeGenerator from '../constants/RoomCodeGenerator'
+import { func } from 'prop-types'
+import Roombox from '../components/Roombox'
 const Quiz = () => {
-    const [name,setName] = useState({})
+    const [inputcode , setInputcode] = useState("")
+    const [Playernames,setPlayernames] = useState([])
+    const [roomCode , setRoomcode] = useState('')
     const socket = io("localhost:3000")
     function socketConnect() {
         socket.on("connect", () => {
             console.log("Connected to server")
+            console.log(socket.id)
         })
     }
     useEffect(() => {
@@ -17,18 +22,28 @@ const Quiz = () => {
     function handleInput(event){
       let {name , value} = event.target;
       let currentName = {[name]:value}
-      setName({currentName})
+      console.log(currentName.name)
+      setInputcode({currentName})
+      console.log(inputcode)
     }
-    function handleNameChanged(){
-      socket.emit("nameChanged",name)
-      socket.on("Players", (Players) => {
-        console.log(Players)
-    })
+    function handleCreateroom(){
+      console.log("room created")
+      const room = roomCodeGenerator(6);
+      socket.emit("createRoom",room, message => {
+        setRoomcode(message)
+      })
+    }
+    function handleJoinroom(){
+      console.log("room joined")
+      const roomCode = inputcode.currentName.name;
+      socket.emit("joinRoom",roomCode, message => {
+          setRoomcode(message)
+      })
     }
     return (
         <div className="min-h-screen bg-neutral-900 p-6">
         <div className=" mx-auto">
-          <h1 className="text-2xl text-center text-white mb-8">Set up a game</h1>
+          <h1 className="text-2xl text-center text-white mb-8">Share the roomcode with your friends : {roomCode}</h1>
           
           <div className="flex gap-6">
             {/* Red Team */}
@@ -78,10 +93,10 @@ const Quiz = () => {
                 </button>
               </div>
             </div>
-            {/* Profile Box */}
+            {/* Bottom section */}
            <div className="absolute bottom-6 flex left-6 gap-6 w-full">
-              <Profilebox name='name' handleInput={handleInput} handleUpdate={handleNameChanged} />
-              <Playerlist />
+              <Roombox className="h-[80px]" name='name' handleInput={handleInput} handleJoinroom={handleJoinroom} handleCreateroom={handleCreateroom} />
+              <Playerlist Players={Playernames}/>
             </div>
             
           </div>

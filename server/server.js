@@ -12,6 +12,14 @@ io.on("connection", (socket) => {
         Players.push({...nameChanged, id: socket.id})
         socket.emit("Players", Players)
     })
+    socket.on("createRoom",(room,cb) =>{
+        socket.join(room)
+        cb(`${room}`)
+    })
+    socket.on("joinRoom",(roomCode, cb) =>{
+        socket.join(roomCode)
+        cb(`${roomCode}`)
+    })
 })
 
 httpServer.listen(3000, () => {
