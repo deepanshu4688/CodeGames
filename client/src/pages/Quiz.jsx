@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import io from "socket.io-client"
-import Playerlist from '../components/Playerlist'
+import Playerprofile from '../components/Playerprofile'
 import roomCodeGenerator from '../constants/RoomCodeGenerator'
 import { func } from 'prop-types'
 import Roombox from '../components/Roombox'
@@ -94,11 +94,8 @@ const Quiz = () => {
               </div>
             </div>
             {/* Bottom section */}
-           <div className="absolute bottom-6 flex left-6 gap-6 w-full">
-              <Roombox className="h-[80px]" name='name' handleInput={handleInput} handleJoinroom={handleJoinroom} handleCreateroom={handleCreateroom} />
-              <Playerlist Players={Playernames}/>
-            </div>
-            
+            <Roombox className="h-[80px]" name='name' handleInput={handleInput} handleJoinRoom={handleJoinroom} handleCreateRoom={handleCreateroom} />
+            <Playerprofile />
           </div>
         </div>
       </div>
