@@ -1,5 +1,30 @@
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
+import io from "socket.io-client"
+import Profilebox from '../components/Profilebox'
+import Playerlist from '../components/Playerlist'
 const Quiz = () => {
+    const [name,setName] = useState({})
+    const socket = io("localhost:3000")
+    function socketConnect() {
+        socket.on("connect", () => {
+            console.log("Connected to server")
+        })
+    }
+    useEffect(() => {
+        socketConnect()
+    }, [])
+    function handleInput(event){
+      let {name , value} = event.target;
+      let currentName = {[name]:value}
+      setName({currentName})
+    }
+    function handleNameChanged(){
+      socket.emit("nameChanged",name)
+      socket.on("Players", (Players) => {
+        console.log(Players)
+    })
+    }
     return (
         <div className="min-h-screen bg-neutral-900 p-6">
         <div className=" mx-auto">
@@ -53,6 +78,12 @@ const Quiz = () => {
                 </button>
               </div>
             </div>
+            {/* Profile Box */}
+           <div className="absolute bottom-6 flex left-6 gap-6 w-full">
+              <Profilebox name='name' handleInput={handleInput} handleUpdate={handleNameChanged} />
+              <Playerlist />
+            </div>
+            
           </div>
         </div>
       </div>
