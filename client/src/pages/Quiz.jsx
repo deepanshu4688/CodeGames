@@ -7,7 +7,8 @@ import { func } from 'prop-types'
 import Roombox from '../components/Roombox'
 const Quiz = () => {
     const [inputcode , setInputcode] = useState("")
-    const [Playernames,setPlayernames] = useState([])
+    const [Playername,setPlayername] = useState("")
+    const [displayName , setDisplayName] = useState("")
     const [roomCode , setRoomcode] = useState('')
     const socket = io("localhost:3000")
     function socketConnect() {
@@ -22,23 +23,32 @@ const Quiz = () => {
     function handleInput(event){
       let {name , value} = event.target;
       let currentName = {[name]:value}
-      console.log(currentName.name)
       setInputcode({currentName})
-      console.log(inputcode)
     }
     function handleCreateroom(){
       console.log("room created")
       const room = roomCodeGenerator(6);
-      socket.emit("createRoom",room, message => {
-        setRoomcode(message)
+      const Name = Playername.currentName.textInput;
+      socket.emit("createRoom",room,Name, message => {
+        setRoomcode(message.room)
+        setDisplayName(message.name)
+        console.log(`Created room ${message.room} as ${message.name}`)
       })
     }
     function handleJoinroom(){
       console.log("room joined")
-      const roomCode = inputcode.currentName.name;
-      socket.emit("joinRoom",roomCode, message => {
-          setRoomcode(message)
+      const room = inputcode.currentName.name;
+      const Name = Playername.currentName.textInput;
+      socket.emit("joinRoom",room,Name, message => {
+          setRoomcode(message.room)
+          setDisplayName(message.name)
+          console.log(`Joined room ${message.room} as ${message.name}`)
       })
+    }
+    function handlePlayerName(){
+      let {name , value} = event.target;
+      let currentName = {[name]:value}
+      setPlayername({currentName})
     }
     return (
         <div className="min-h-screen bg-neutral-900 p-6">
@@ -94,8 +104,8 @@ const Quiz = () => {
               </div>
             </div>
             {/* Bottom section */}
-            <Roombox className="h-[80px]" name='name' handleInput={handleInput} handleJoinRoom={handleJoinroom} handleCreateRoom={handleCreateroom} />
-            <Playerprofile />
+            <Roombox className="h-[80px]" name='name' handleInput={handleInput} handleJoinRoom={handleJoinroom} handleCreateRoom={handleCreateroom} handlePlayerName={handlePlayerName} />
+            <Playerprofile playerName={displayName}/>
           </div>
         </div>
       </div>

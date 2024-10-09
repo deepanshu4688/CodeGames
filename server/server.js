@@ -3,22 +3,18 @@ const { Server } = require("socket.io");
 const httpServer = createServer()
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:5174"
+        origin: "http://localhost:5173"
     }})
 
-let Players = []    
+  
 io.on("connection", (socket) => {
-    socket.on("nameChanged", (nameChanged)=>{
-        Players.push({...nameChanged, id: socket.id})
-        socket.emit("Players", Players)
-    })
-    socket.on("createRoom",(room,cb) =>{
+    socket.on("createRoom",(room,Name,cb) =>{
         socket.join(room)
-        cb(`${room}`)
+        cb({room:room , name:Name})
     })
-    socket.on("joinRoom",(roomCode, cb) =>{
-        socket.join(roomCode)
-        cb(`${roomCode}`)
+    socket.on("joinRoom",(room,Name, cb) =>{
+        socket.join(room)
+        cb({room:room , name:Name})
     })
 })
 

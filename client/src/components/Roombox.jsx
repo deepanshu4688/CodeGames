@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Roombox = ({handleInput, playerName, name, handleCreateRoom, handleJoinRoom, handlePlayerName, handleSubmit}) => {
+const Roombox = ({handleInput, name, handleCreateRoom, handleJoinRoom, handlePlayerName}) => {
   return (
     <div className="fixed bottom-4 left-4 w-72">
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 shadow-lg">
@@ -11,18 +11,11 @@ const Roombox = ({handleInput, playerName, name, handleCreateRoom, handleJoinRoo
               type="text"
               className="w-full bg-gray-700 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
               placeholder="Enter player name"
-              value={playerName}
+              name = "textInput"
+              autoComplete='on'
               onChange={handlePlayerName}
             />
           </div>
-          
-          {/* Submit Button */}
-          <button 
-            onClick={handleSubmit} 
-            className="w-full bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded font-medium"
-          >
-            Submit
-          </button>
           
           {/* Room Actions */}
           <div className="space-y-2 pt-2">
@@ -44,6 +37,7 @@ const Roombox = ({handleInput, playerName, name, handleCreateRoom, handleJoinRoo
               placeholder="Enter room code"
               name={name}
               onChange={handleInput}
+              autoComplete='on'
             />
           </div>
         </div>
